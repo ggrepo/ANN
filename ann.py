@@ -6,12 +6,10 @@ import numpy as np
 def sigmoid(z):
     g = 1.0 / (1.0 + np.exp(-1 * z))
     return g
-
 #2.
 def sigmoidGradient(z):
     g = sigmoid(z) * (1 - sigmoid(z))
     return g
-
 
 # inicjalizacja
 class ANN(object):
