@@ -45,10 +45,28 @@ def read_data():
 
 raw_train_labels, raw_train_images, raw_test_labels, raw_test_images = read_data()
 
+################
+
+def reshape_input_data(ip_data):## zmiana obrazu mx(rzedy*kolumny)
+
+	# wymiana danych wejsciowych
+	num_of_samples, num_of_rows, num_of_cols = ip_data.shape
+	return ip_data.reshape(num_of_samples, (num_of_rows*num_of_cols))
+
+
+def reshape_output_data(op_data):
+
+	#wymiana danych wyjsciowych
+	num_of_samples = len(op_data)
+	ret_data = np.zeros((num_of_samples, 10))
+	for i in xrange(0, num_of_samples):
+		index = op_data[i]
+		ret_data[i,index] = 1
+	return ret_data
+
+
 for i in range(3):
     plt.imshow(raw_test_images[i], cmap=cm.gray)
     plt.title("digit: {}".format(raw_test_labels[i]))
     plt.show()
-
-
 
