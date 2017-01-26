@@ -65,8 +65,18 @@ def reshape_output_data(op_data):
 	return ret_data
 
 
-for i in range(3):
-    plt.imshow(raw_test_images[i], cmap=cm.gray)
-    plt.title("digit: {}".format(raw_test_labels[i]))
-    plt.show()
+# wyswietlanie kilku przykladowych obrazkow
+# for i in range(3):
+#     plt.imshow(raw_test_images[i], cmap=cm.gray)
+#     plt.title("digit: {}".format(raw_test_labels[i]))
+#     plt.show()
+
+
+# modyfikacja obrazkow i etykiet za pomoca funkcji reshape
+modif_train_images = reshape_input_data(raw_train_images)
+modif_test_images = reshape_input_data(raw_test_images)
+modif_train_labels = reshape_output_data(raw_train_labels)
+modif_test_labels = reshape_output_data(raw_test_labels)
+#print modif_test_images[0]
+#print modif_test_labels[0]
 
