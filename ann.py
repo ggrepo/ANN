@@ -1,13 +1,17 @@
 import numpy as np
 
 # FUNKCJE POMOCNICZE
-#1. funkcja aktywacji
-# wzór g(z)=1/(1+e^-z)
+
+#1. funkcja aktywacji - obliczana na podstawie wartosci wyjscia neuronow z sieci, uzywana  w sieciach jednokierunkowych
+# wzór g(z)=1/(1+e^-z), input z: tablica a numpy
 def sigmoid(z):
     g = 1.0 / (1.0 + np.exp(-1 * z))
+    # zwraca numpy array z elementacji "mądrej" funkcji sigmoidalnej kazdego elementu z
     return g
 #2.
 def sigmoidGradient(z):
+    #input a  tablica numpy
+    # zwraca numpy array  z elementami "uczącej się" funkcji sigmoidalnej-gradient na kazdym elemencie z
     g = sigmoid(z) * (1 - sigmoid(z))
     return g
 
@@ -34,10 +38,35 @@ class ANN(object):
         a_1 = sigmoid(z_1)
         #dodanie kolumny jedynek (bias unit) do a_1
         a_1_with_bias = np.hstack((ones_column, a_1))
-        #mnozenie a_1_with_bias z macierza wag; z_2 - aktywatory output layer
+        #mnozenie a_1_with_bias z macierza wag; z_2 - aktywatory output layergit
         z_2 = np.dot(a_1_with_bias, self._weights_matrix_2.T)
         #przepuszczenie aktywatorow przez f.simgmoidalna => output w (0,1)
         a_2 = sigmoid(z_2)
         #macierz przewidywanych wartosci wyjsciowych
         return a_2
+
+
+
+# metoda pozwalająca na znalezienie ważenia   kosztów lub  błędów (najlepszych parametrów wagi H1 i H2)
+def _NN_compute_cost(self, output_data, estimated_output, reg_param):
+		#pobieranie ilości próbek wyjsciowych i ich  wymiaru
+		num_of_op_samples, num_of_labels = output_data.shape
+
+		# użycie wektora do znalezienie kosztów
+		temp_1 = (-1) * (output_data) * (np.log(estimated_output))
+		temp_2 = (-1) * (1 - output_data) * (np.log(1 - estimated_output))
+		cost = np.sum(temp_1) + np.sum(temp_2)
+		norm_cost = cost/num_of_op_samples
+
+		# dodanie współczynników ważenia  kosztów
+		weights_1_no_bias = self._weights_matrix_1[:,1:]
+		weights_2_no_bias = self._weights_matrix_2[:,1:]
+		reg_cost = np.sum(np.square(weights_1_no_bias)) + np.sum(np.square(weights_2_no_bias))
+		norm_reg_cost = reg_cost * (float(reg_param)/(2*num_of_op_samples))
+
+		# koszt całkowity
+		total_cost = norm_cost + norm_reg_cost
+		return total_cost
+
+#należy dodać jeszcze metodę  dla pojedynczej iteracji!
 
