@@ -79,15 +79,16 @@ class ANN(object):
         # pobranie liczby probek i rozmiarow macierzy input_data (m x 784)
         num_of_ip_samples, input_data_dim = input_data.shape
 
-        #znajdujemy blad dla ostatniej warstwy
-        delta_3 = estimated_output - output_data
-        delta_2_half = np.dot(delta_3, self._weights_matrix_2)
-
+        #troche operacji z _NN_feed_forward
         ones_column = np.ones((num_of_ip_samples, 1))
         ip_with_bias = np.hstack((ones_column, input_data))
         z_1 = np.dot(ip_with_bias, self._weights_matrix_1.T)
         a_1 = sigmoid(z_1)
         a_1_with_bias = np.hstack((ones_column, a_1))
+
+        #znajdujemy blad dla ostatniej warstwy
+        delta_3 = estimated_output - output_data
+        delta_2_half = np.dot(delta_3, self._weights_matrix_2)
 
         #propagujemy blad do hidden layer
         g_dash_z = sigmoidGradient(z_1)
