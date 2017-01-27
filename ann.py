@@ -170,4 +170,9 @@ class ANN(object):
         estimated_labels = np.argmax(estimated_op, axis=1)#wstawia 1 w miejsce max wartosci
         return estimated_labels
 
+    #wyswietlanie efektu przewidywan przed konwersja do macierzy 0-1
+    def estimate_op(self, data):
+        estimated_op = self._NN_feed_forward(data)
+        return estimated_op
+
 

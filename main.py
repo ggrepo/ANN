@@ -83,18 +83,20 @@ modif_test_labels = reshape_output_data(raw_test_labels)
 #print modif_test_images[0]
 #print modif_test_labels[0]
 
-
 #inicjalizacja ANN
 ann = ANN(nodes_in_hidden_layer=20)
 
 #trenowanie
 start_time = time.time()
-ann.train_NN(modif_train_images, modif_train_labels, num_of_iterations=1, learning_rate=0.1)
+ann.train_NN(modif_train_images, modif_train_labels, num_of_iterations=100, learning_rate=0.1)
 time_delta = time.time() - start_time
 print "Training time: ", str(timedelta(seconds=time_delta))
 
 #przewidywanie etykiet dla danych testowych
+predicted_op = ann.estimate_op(modif_test_images)
+#print predicted_op[0]
 predicted_labels = ann.predict_NN(modif_test_images)
+#print predicted_labels[0]
 
 #obliczenie trafnosci ANN
 total_labels = len(predicted_labels)
