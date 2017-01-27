@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 import numpy as np
 
 # FUNKCJE POMOCNICZE
@@ -19,7 +20,7 @@ def sigmoidGradient(z):
 # inicjalizacja
 class ANN(object):
 
-    def __init__(self, nodes_in_hidden_layer=10):
+    def __init__(self, nodes_in_hidden_layer=20):
         self._nodes_in_hidden_layer = nodes_in_hidden_layer
         self._weights_matrix_1 = None
         self._weights_matrix_2 = None
@@ -47,26 +48,65 @@ class ANN(object):
 
 
 
-# metoda pozwalająca na znalezienie ważenia   kosztów lub  błędów (najlepszych parametrów wagi H1 i H2)
-def _NN_compute_cost(self, output_data, estimated_output, reg_param):
-		#pobieranie ilości próbek wyjsciowych i ich  wymiaru
-		num_of_op_samples, num_of_labels = output_data.shape
+    # metoda pozwalająca na znalezienie ważenia   kosztów lub  błędów (najlepszych parametrów wagi H1 i H2)
+    def _NN_compute_cost(self, output_data, estimated_output, reg_param):
+            #pobieranie ilości próbek wyjsciowych i ich  wymiaru
+            num_of_op_samples, num_of_labels = output_data.shape
 
-		# użycie wektora do znalezienie kosztów
-		temp_1 = (-1) * (output_data) * (np.log(estimated_output))
-		temp_2 = (-1) * (1 - output_data) * (np.log(1 - estimated_output))
-		cost = np.sum(temp_1) + np.sum(temp_2)
-		norm_cost = cost/num_of_op_samples
+            # użycie wektora do znalezienie kosztów
+            temp_1 = (-1) * (output_data) * (np.log(estimated_output))
+            temp_2 = (-1) * (1 - output_data) * (np.log(1 - estimated_output))
+            cost = np.sum(temp_1) + np.sum(temp_2)
+            norm_cost = cost/num_of_op_samples
 
-		# dodanie współczynników ważenia  kosztów
-		weights_1_no_bias = self._weights_matrix_1[:,1:]
-		weights_2_no_bias = self._weights_matrix_2[:,1:]
-		reg_cost = np.sum(np.square(weights_1_no_bias)) + np.sum(np.square(weights_2_no_bias))
-		norm_reg_cost = reg_cost * (float(reg_param)/(2*num_of_op_samples))
+            # dodanie współczynników ważenia  kosztów
+            weights_1_no_bias = self._weights_matrix_1[:,1:]
+            weights_2_no_bias = self._weights_matrix_2[:,1:]
+            reg_cost = np.sum(np.square(weights_1_no_bias)) + np.sum(np.square(weights_2_no_bias))
+            norm_reg_cost = reg_cost * (float(reg_param)/(2*num_of_op_samples))
 
-		# koszt całkowity
-		total_cost = norm_cost + norm_reg_cost
-		return total_cost
+            # koszt całkowity
+            total_cost = norm_cost + norm_reg_cost
+            return total_cost
 
-#należy dodać jeszcze metodę  dla pojedynczej iteracji!
+    #należy dodać jeszcze metodę  dla pojedynczej iteracji!
+
+
+    def _NN_backpropagation(self, output_data, input_data, estimated_output, reg_param):
+
+        #pobranie liczby probek i rozmiarow macierzy output_data (m x 10)
+        num_of_op_samples, num_of_labels = output_data.shape
+        # pobranie liczby probek i rozmiarow macierzy input_data (m x 784)
+        num_of_ip_samples, input_data_dim = input_data.shape
+
+        #znajdujemy blad dla ostatniej warstwy
+        delta_3 = estimated_output - output_data
+        delta_2_half = np.dot(delta_3, self._weights_matrix_2)
+
+        ones_column = np.ones((num_of_ip_samples, 1))
+        ip_with_bias = np.hstack((ones_column, input_data))
+        z_1 = np.dot(ip_with_bias, self._weights_matrix_1.T)
+        a_1 = sigmoid(z_1)
+        a_1_with_bias = np.hstack((ones_column, a_1))
+
+        #propagujemy blad do hidden layer
+        g_dash_z = sigmoidGradient(z_1)
+        delta_2 = delta_2_half[:,1:] * g_dash_z
+        #liczymy big_deltas
+        big_delta_2 = np.dot(delta_3.T, a_1_with_bias)
+        big_delta_1 = np.dot(delta_2.T, ip_with_bias)
+        #liczymy gradienty
+        grad_1 = big_delta_1/num_of_ip_samples
+        grad_2 = big_delta_2/num_of_ip_samples
+        #regularyzacja
+        reg_weights_1 = (reg_param/num_of_ip_samples) * self._weights_matrix_1
+        reg_weights_2 = (reg_param/num_of_ip_samples) * self._weights_matrix_2
+        #zerujemy kolumne z bias
+        reg_weights_1[:,0] = 0.0
+        reg_weights_2[:,0] = 0.0
+        #dodajemy regularyzacje do gradientow
+        final_grad_1 = grad_1 + reg_weights_1
+        final_grad_2 = grad_2 + reg_weights_2
+        #gradienty dla macierzy wag
+        return final_grad_1, final_grad_2
 
