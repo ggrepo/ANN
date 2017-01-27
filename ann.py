@@ -111,3 +111,18 @@ class ANN(object):
         #gradienty dla macierzy wag
         return final_grad_1, final_grad_2
 
+  # Metoda pozwalająca znaleźć gradienty i koszta dla pojedynczej iteracji
+def _NN_cost_function(self, input_data, output_data, reg_param):
+    # Przepuszczanie danych poprzez ANN przy użyciu bieżących wag i uzyskaniu wartości wyjściowych
+    estimated_op = self._NN_feed_forward(input_data)
+    # Obliczanie ważonych  kosztow
+    cost = self._NN_compute_cost(output_data, estimated_op, reg_param)
+    # Obliczanie gradientów  wstecznej propagacji błędów
+    grad_1_matrix, grad_2_matrix = self._NN_backpropagation(output_data, input_data, estimated_op, reg_param)
+    # zwrot uregulowanego kosztu i wagi
+    return cost, grad_1_matrix, grad_2_matrix
+
+
+
+
+
