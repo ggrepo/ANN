@@ -102,7 +102,7 @@ correct_labels = np.sum(predicted_labels == raw_test_labels)
 accuracy = float(correct_labels)/total_labels * 100
 
 #wyswietlenie wynikow
-print total_labels
-print correct_labels
-print accuracy
+print "Total No. of Test Images: %d" % (total_labels)
+print "Images Correct Classified: %d" % (correct_labels)
+print "Accuracy of Model: %.2f%%" % (accuracy)
 

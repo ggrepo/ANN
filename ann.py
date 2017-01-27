@@ -4,14 +4,13 @@ import numpy as np
 # FUNKCJE POMOCNICZE
 
 #1. funkcja aktywacji - obliczana na podstawie wartosci wyjscia neuronow z sieci, uzywana  w sieciach jednokierunkowych
-# wzór g(z)=1/(1+e^-z), input z: tablica a numpy
+# wzór g(z)=1/(1+e^-z), input z: macierz
 def sigmoid(z):
     g = 1.0 / (1.0 + np.exp(-1 * z))
     # zwraca numpy array z elementacji "mądrej" funkcji sigmoidalnej kazdego elementu z
     return g
 #2.
 def sigmoidGradient(z):
-    #input a  tablica numpy
     # zwraca numpy array  z elementami "uczącej się" funkcji sigmoidalnej-gradient na kazdym elemencie z
     g = sigmoid(z) * (1 - sigmoid(z))
     return g
@@ -159,7 +158,7 @@ class ANN(object):
             self._weights_matrix_2 -= (learning_rate * weights_2_grad)
             print "Iteracja #%d:  Blad = %f" % (i + 1, cost_func_array[i])
         print "---------------------------------------------------"
-        print "Parametry Sieci Neuronowej nauczone!"
+        print "ANN learnt (finally)!"
         print "---------------------------------------------------"
 
 
@@ -170,4 +169,5 @@ class ANN(object):
         #pobranie indeksu etykiety na wyjsciu (maksymalne prawdopodobienstwo)
         estimated_labels = np.argmax(estimated_op, axis=1)
         return estimated_labels
+
 
