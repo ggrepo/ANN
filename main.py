@@ -4,6 +4,7 @@ from ann import ANN
 import matplotlib.pyplot as plt
 from pylab import cm
 import time
+from datetime import timedelta
 
 DATA_FOLDER = 'data'
 TRAIN_IMGS_FILE = 'train-images.idx3-ubyte'
@@ -37,10 +38,10 @@ def read_data():
         test_img_magic_num, num_of_test_images, tst_num_of_rows, tst_num_of_cols = struct.unpack(">4i", test_img_file.read(16))
         test_images = np.fromfile(test_img_file, dtype=np.uint8).reshape(len(test_labels), tst_num_of_rows, tst_num_of_cols)
 
-    print train_lbl_magic_num, num_of_train_labels, train_labels.shape
-    print train_img_magic_num, num_of_train_images, train_images.shape
-    print test_lbl_magic_num, num_of_test_labels, test_labels.shape
-    print test_img_magic_num, num_of_test_images, test_images.shape
+    # print train_lbl_magic_num, num_of_train_labels, train_labels.shape
+    # print train_img_magic_num, num_of_train_images, train_images.shape
+    # print test_lbl_magic_num, num_of_test_labels, test_labels.shape
+    # print test_img_magic_num, num_of_test_images, test_images.shape
 
     return train_labels, train_images, test_labels, test_images
 
@@ -88,6 +89,6 @@ ann = ANN(nodes_in_hidden_layer=20)
 
 #trenowanie
 start_time = time.time()
-ann.train_NN(modif_train_images, modif_train_labels, num_of_iterations=10, learning_rate=0.1)
+ann.train_NN(modif_train_images, modif_train_labels, num_of_iterations=1, learning_rate=0.1)
 time_delta = time.time() - start_time
-print "Training time: %f" % time_delta
+print "Training time: ", str(timedelta(seconds=time_delta))

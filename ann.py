@@ -50,7 +50,7 @@ class ANN(object):
         a_1 = sigmoid(z_1)
         #dodanie kolumny jedynek (bias unit) do a_1
         a_1_with_bias = np.hstack((ones_column, a_1))
-        #mnozenie a_1_with_bias z macierza wag; z_2 - aktywatory output layergit
+        #mnozenie a_1_with_bias z macierza wag; z_2 - aktywatory output layer
         z_2 = np.dot(a_1_with_bias, self._weights_matrix_2.T)
         #przepuszczenie aktywatorow przez f.simgmoidalna => output w (0,1)
         a_2 = sigmoid(z_2)
