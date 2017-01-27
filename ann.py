@@ -122,45 +122,45 @@ class ANN(object):
         #gradienty dla macierzy wag
         return final_grad_1, final_grad_2
 
-  # Metoda pozwalająca znaleźć gradienty i koszta dla pojedynczej iteracji
-def _NN_cost_function(self, input_data, output_data, reg_param):
-    # Przepuszczamy dane poprzez ANN przy użyciu bieżących wag i uzyskaniu wartości wyjściowych
-    estimated_op = self._NN_feed_forward(input_data)
-    # Obliczamy   koszta ważone
-    cost = self._NN_compute_cost(output_data, estimated_op, reg_param)
-    # Obliczamy gradienty wstecznej propagacji błędów
-    grad_1_matrix, grad_2_matrix = self._NN_backpropagation(output_data, input_data, estimated_op, reg_param)
-    # zwracamy uregulowane koszta  i ich wagi
-    return cost, grad_1_matrix, grad_2_matrix
+      # Metoda pozwalająca znaleźć gradienty i koszta dla pojedynczej iteracji
+    def _NN_cost_function(self, input_data, output_data, reg_param):
+        # Przepuszczamy dane poprzez ANN przy użyciu bieżących wag i uzyskaniu wartości wyjściowych
+        estimated_op = self._NN_feed_forward(input_data)
+        # Obliczamy   koszta ważone
+        cost = self._NN_compute_cost(output_data, estimated_op, reg_param)
+        # Obliczamy gradienty wstecznej propagacji błędów
+        grad_1_matrix, grad_2_matrix = self._NN_backpropagation(output_data, input_data, estimated_op, reg_param)
+        # zwracamy uregulowane koszta  i ich wagi
+        return cost, grad_1_matrix, grad_2_matrix
 
-#metoda pozwalająca na trenowanie ANN
-#input an mxn macierz gdzie m oznacza liczbę próbek, n-trojwymiarowosc danych
-def train_NN(self, input_data, output_data, num_of_iterations=1000,
-             reg_param=0.1, learning_rate=0.01):
-    print "---------------------------------------------------"
-    print "Starting to train the ANN"
-    print "---------------------------------------------------"
-    # pobieramy próbki i dane wejsciowe
-    num_of_ip_samples, input_data_dim = input_data.shape
-    #  pobieramy probki wyjsciowe  i ich wymary
-    num_of_op_samples, num_of_labels = output_data.shape
-    # losowo inicjalizujemy  macierze i ich wagi
-    self._weights_matrix_1 = random_initialize_weights(input_data_dim, self._nodes_in_hidden_layer)
-    self._weights_matrix_2 = random_initialize_weights(self._nodes_in_hidden_layer, num_of_labels)
-    # inicjalizujemy tablice kosztow  do przechowywania wartości  po każdej iteracji
-    cost_func_array = np.zeros(num_of_iterations)
+    #metoda pozwalająca na trenowanie ANN
+    #input an mxn macierz gdzie m oznacza liczbę próbek, n-trojwymiarowosc danych
+    def train_NN(self, input_data, output_data, num_of_iterations=1000,
+                 reg_param=0.1, learning_rate=0.01):
+        print "---------------------------------------------------"
+        print "Starting to train the ANN"
+        print "---------------------------------------------------"
+        # pobieramy próbki i dane wejsciowe
+        num_of_ip_samples, input_data_dim = input_data.shape
+        #  pobieramy probki wyjsciowe  i ich wymary
+        num_of_op_samples, num_of_labels = output_data.shape
+        # losowo inicjalizujemy  macierze i ich wagi
+        self._weights_matrix_1 = random_initialize_weights(input_data_dim, self._nodes_in_hidden_layer)
+        self._weights_matrix_2 = random_initialize_weights(self._nodes_in_hidden_layer, num_of_labels)
+        # inicjalizujemy tablice kosztow  do przechowywania wartości  po każdej iteracji
+        cost_func_array = np.zeros(num_of_iterations)
 
-    # trenujemy siec
-    for i in xrange(0, num_of_iterations):
-        # pobieramy gradienty i bledy
-        cost_func_array[i], weights_1_grad, weights_2_grad = self._NN_cost_function(input_data, output_data, reg_param)
-        # aktualizujemy wagi macierzy przy uzyciu wyliczonych gradientow
-        self._weights_matrix_1 -= (learning_rate * weights_1_grad)
-        self._weights_matrix_2 -= (learning_rate * weights_2_grad)
-        print "Iteracja #%d:  Blad = %f" % (i + 1, cost_func_array[i])
-    print "---------------------------------------------------"
-    print "Parametry Sieci Neuronowej nauczone!"
-    print "---------------------------------------------------"
+        # trenujemy siec
+        for i in xrange(0, num_of_iterations):
+            # pobieramy gradienty i bledy
+            cost_func_array[i], weights_1_grad, weights_2_grad = self._NN_cost_function(input_data, output_data, reg_param)
+            # aktualizujemy wagi macierzy przy uzyciu wyliczonych gradientow
+            self._weights_matrix_1 -= (learning_rate * weights_1_grad)
+            self._weights_matrix_2 -= (learning_rate * weights_2_grad)
+            print "Iteracja #%d:  Blad = %f" % (i + 1, cost_func_array[i])
+        print "---------------------------------------------------"
+        print "Parametry Sieci Neuronowej nauczone!"
+        print "---------------------------------------------------"
 
 
 

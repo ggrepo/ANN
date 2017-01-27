@@ -1,7 +1,9 @@
 import struct
 import numpy as np
+from ann import ANN
 import matplotlib.pyplot as plt
 from pylab import cm
+import time
 
 DATA_FOLDER = 'data'
 TRAIN_IMGS_FILE = 'train-images.idx3-ubyte'
@@ -80,3 +82,12 @@ modif_test_labels = reshape_output_data(raw_test_labels)
 #print modif_test_images[0]
 #print modif_test_labels[0]
 
+
+#inicjalizacja ANN
+ann = ANN(nodes_in_hidden_layer=20)
+
+#trenowanie
+start_time = time.time()
+ann.train_NN(modif_train_images, modif_train_labels, num_of_iterations=10, learning_rate=0.1)
+time_delta = time.time() - start_time
+print "Training time: %f" % time_delta
