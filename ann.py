@@ -163,4 +163,11 @@ class ANN(object):
         print "---------------------------------------------------"
 
 
+    #funkcja przewidujaca etykiety
+    def predict_NN(self, data):
+        #przepuszczenie danych przez NN
+        estimated_op = self._NN_feed_forward(data)
+        #pobranie indeksu etykiety na wyjsciu (maksymalne prawdopodobienstwo)
+        estimated_labels = np.argmax(estimated_op, axis=1)
+        return estimated_labels
 

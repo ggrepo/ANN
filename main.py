@@ -92,3 +92,17 @@ start_time = time.time()
 ann.train_NN(modif_train_images, modif_train_labels, num_of_iterations=1, learning_rate=0.1)
 time_delta = time.time() - start_time
 print "Training time: ", str(timedelta(seconds=time_delta))
+
+#przewidywanie etykiet dla danych testowych
+predicted_labels = ann.predict_NN(modif_test_images)
+
+#obliczenie trafnosci ANN
+total_labels = len(predicted_labels)
+correct_labels = np.sum(predicted_labels == raw_test_labels)
+accuracy = float(correct_labels)/total_labels * 100
+
+#wyswietlenie wynikow
+print total_labels
+print correct_labels
+print accuracy
+
