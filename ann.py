@@ -167,7 +167,7 @@ class ANN(object):
         #przepuszczenie danych przez NN
         estimated_op = self._NN_feed_forward(data)
         #pobranie indeksu etykiety na wyjsciu (maksymalne prawdopodobienstwo)
-        estimated_labels = np.argmax(estimated_op, axis=1)
+        estimated_labels = np.argmax(estimated_op, axis=1)#wstawia 1 w miejsce max wartosci
         return estimated_labels
 
 
