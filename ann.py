@@ -103,7 +103,7 @@ class ANN(object):
         delta_2_half = np.dot(delta_3, self._weights_matrix_2)
 
         #propagujemy blad do hidden layer
-        g_dash_z = sigmoidGradient(z_1)
+        g_dash_z = d(z_1)
         delta_2 = delta_2_half[:,1:] * g_dash_z
         #liczymy big_deltas
         big_delta_2 = np.dot(delta_3.T, a_1_with_bias)

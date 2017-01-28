@@ -88,7 +88,7 @@ ann = ANN(nodes_in_hidden_layer=20)
 
 #trenowanie
 start_time = time.time()
-ann.train_NN(modif_train_images, modif_train_labels, num_of_iterations=100, learning_rate=0.1)
+ann.train_NN(modif_train_images, modif_train_labels, num_of_iterations=10, learning_rate=0.1)
 time_delta = time.time() - start_time
 print "Training time: ", str(timedelta(seconds=time_delta))
 
